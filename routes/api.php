@@ -15,8 +15,8 @@ $app->group(['prefix' => 'api/v1'], function() use($app) {
     $app->get('/book/{id}', 'BookshelfController@getBook');
     $app->get('/book/{id}/cover', 'BookshelfController@getBookCover');
 
-    $app->put('/book', 'BookshelfController@addBook');
-    $app->put('/book/{id}/cover', 'BookshelfController@addBookCover');
-    $app->post('/book/{id}', 'BookshelfController@updateBook');
+    $app->post('/book', 'BookshelfController@addBook');
+    $app->post('/book/{id}/cover', 'BookshelfController@addBookCover');
+    $app->put('/book/{id}', 'BookshelfController@updateBook');
     $app->delete('/book/{id}', 'BookshelfController@deleteBook');
 });

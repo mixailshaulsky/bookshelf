@@ -39,7 +39,7 @@ class BooksTest extends TestCase
                 американского писателя Ф. Баума'
         ];
 
-        $this->post('/api/v1/book/2', $data)->seeJsonStructure(['success', 'book_id']);
+        $this->post('/api/v1/book/1', $data)->seeJsonStructure(['success', 'book_id']);
     }
 
     /**
@@ -49,6 +49,6 @@ class BooksTest extends TestCase
      */
     public function testBookDelete()
     {
-        $this->delete('/api/v1/book/2')->seeJsonEquals(['success' => 'deleted']);
+        $this->delete('/api/v1/book/1')->seeJsonEquals(['success' => 'deleted']);
     }
 }

@@ -221,7 +221,7 @@ class BookshelfController extends Controller {
         } else {
             $content = '';
             $status_code  = 204;
-            $headers = [];
+            $headers = ['Content-type' => 'application/json'];
         }
 
         return response()->make($content, $status_code)->withHeaders($headers);
