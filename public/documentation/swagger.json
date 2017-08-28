@@ -1,0 +1,529 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a API documentations for Bookshelf app",
+    "version": "1.0.0",
+    "title": "Bookshelf",
+    "contact": {
+      "email": "mixail.shaulsky@ya.ru"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:8000",
+  "basePath": "/api/v1",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/books": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Get a list of books",
+        "description": "",
+        "operationId": "addPet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit the number of books returned (default 10)",
+            "required": false,
+            "type": "integer",
+            "items": {
+              "default": 10
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "The number of scipping books before returning (default 0)",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Search value in title or author of book",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "A comma-separated list of columns for sorting. Prepend minus \"-\" before field name for descending order (available fields: title, author).",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Books"
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/book": {
+      "post": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Create book",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created book object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BookRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/SuccessCreate"
+            },
+            "description": "successful created"
+          },
+          "422": {
+            "description": "invalid paramethers",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "500": {
+            "description": "server-side error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/book/{bookId}": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "View book details",
+        "description": "Derailed information about book",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "Identifier of needle book",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "404": {
+            "description": "Book not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Update book",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "Identifier of needle book",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Book object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BookRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/SuccessUpdate"
+            },
+            "description": "successful updated"
+          },
+          "422": {
+            "description": "invalid paramethers",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "500": {
+            "description": "server-side error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Deletes a book",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "Book id to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete success",
+            "schema": {
+              "$ref": "#/definitions/SuccessDelete"
+            }
+          },
+          "404": {
+            "description": "Book not found"
+          },
+          "500": {
+            "description": "server-side error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/book/{bookId}/cover": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Get the cover image of book",
+        "description": "Image file",
+        "produces": [
+          "image/jpeg",
+          "image/gif",
+          "image/png"
+        ],
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "Identifier of book",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          "204": {
+            "description": "Book has no cover"
+          },
+          "404": {
+            "description": "Book not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Create or replace cover image for book",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "Identifier of book",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "cover",
+            "in": "formData",
+            "description": "Form-data including file with image",
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/SuccessCover"
+            },
+            "description": "successful created"
+          },
+          "422": {
+            "description": "invalid image",
+            "schema": {
+              "$ref": "#/definitions/ValidationCover"
+            }
+          },
+          "500": {
+            "description": "server-side error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Book": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "publication_year": {
+          "type": "integer",
+          "format": "int64",
+          "example": 2017
+        },
+        "description": {
+          "type": "string"
+        },
+        "cover": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "deleted_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "BookRequest": {
+      "required": [
+        "title",
+        "author",
+        "description"
+      ],
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "publication_year": {
+          "type": "integer",
+          "format": "int64",
+          "example": 2017
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "Books": {
+      "type": "object",
+      "properties": {
+        "books": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Book"
+          }
+        },
+        "total_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "SuccessCreate": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "string",
+          "enum": [
+            "created"
+          ]
+        },
+        "book_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The identifier of created book"
+        }
+      }
+    },
+    "SuccessUpdate": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "string",
+          "enum": [
+            "updated"
+          ]
+        },
+        "book_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The identifier of updated book"
+        }
+      }
+    },
+    "SuccessDelete": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "string",
+          "enum": [
+            "deleted"
+          ]
+        }
+      }
+    },
+    "SuccessCover": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "string",
+          "enum": [
+            "created"
+          ]
+        }
+      }
+    },
+    "Validation": {
+      "type": "object",
+      "properties": {
+        "publication_year": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "error message for field (optionnal)"
+          }
+        },
+        "title": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "error message for field (optionnal)"
+          }
+        },
+        "description": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "error message for field (optionnal)"
+          }
+        },
+        "author": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "error message for field (optionnal)"
+          }
+        }
+      }
+    },
+    "ValidationCover": {
+      "type": "object",
+      "properties": {
+        "cover": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "error message for field (optionnal)"
+          }
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Description of server error"
+        }
+      }
+    },
+    "Cover": {
+      "type": "object",
+      "properties": {
+        "cover": {
+          "type": "string",
+          "format": "binary"
+        }
+      }
+    }
+  }
+}
