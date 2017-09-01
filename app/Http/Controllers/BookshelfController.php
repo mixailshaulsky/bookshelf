@@ -246,6 +246,9 @@ class BookshelfController extends Controller {
         $book = new Book;
 
         $book->fill($request->all());
+        if (empty($book->publication_year)) {
+            $book->publication_year = null;
+        }
 
         try {
             $book->save();
@@ -301,6 +304,9 @@ class BookshelfController extends Controller {
         $book = Book::findOrFail($id);
 
         $book->fill($request->all());
+        if (empty($book->publication_year)) {
+            $book->publication_year = null;
+        }
 
         try {
             $book->save();
