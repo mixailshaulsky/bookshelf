@@ -91,6 +91,7 @@ class BookshelfController extends Controller {
         $offset = (int)$request->input('offset', self::DEFAULT_BOOKS_OFFSET);
 
         $books = $books_table
+                    ->whereNull('deleted_at')
                     ->limit($limit)
                     ->offset($offset)
                     ->get();
@@ -213,8 +214,13 @@ class BookshelfController extends Controller {
         $book = Book::findOrFail($book_id);
 
         if (!empty($book->cover)) {
-            $book_cover_file = public_path().'/covers/'.$book->cover;
-            $content = file_get_contents($book_cover_file);
+            $covers_path = public_path().'/covers/';
+            $book_cover_file = $covers_path.$book->cover;
+            $content = @file_get_contents($book_cover_file);
+            if ($content === false) {
+                $book_cover_file = $covers_path.'default-cover.jpg';
+                $content = @file_get_contents($covers_path.'default-cover.jpg');
+            }
             $type = mime_content_type($book_cover_file);
             $status_code = 200;
             $headers = ['Content-type' => $type];
