@@ -53,9 +53,10 @@ class BookshelfController extends Controller {
      * @var array
      */
     protected $book_cover_validate_messages = [
+        'cover.file' => 'Обложка для книги должна быть изображением',
         'cover.required' => 'Не задан фай для обложки книги',
         'cover.image' => 'Обложка для книги должна быть изображением',
-        'cover.mzx' => 'Размер файла не должен превышать 500 кБ'
+        'cover.max' => 'Размер файла не должен превышать 500 кБ'
     ];
 
     /**
@@ -120,8 +121,11 @@ class BookshelfController extends Controller {
     protected function filterBooksTable(Builder $books_table, $filter = '')
     {
         if (!empty($filter)) {
-            $books_table = $books_table->whereRaw('LOWER(title) like ?', ['%'.strtolower($filter).'%'])
-                ->orWhereRaw('LOWER(author) like ?', ['%'.strtolower($filter).'%']);
+            $books_table = $books_table->where(function ($query) use ($filter) {
+                $query->whereRaw('LOWER(title) like ?', ['%'.strtolower($filter).'%'])
+                    ->orWhereRaw('LOWER(author) like ?', ['%'.strtolower($filter).'%']);
+            });
+
         }
         return $books_table;
     }
