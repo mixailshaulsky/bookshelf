@@ -1,0 +1,80 @@
+.card {
+    position: relative;
+    border-radius: .25em;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .37);
+    background-color: #FFF;
+    margin: 1rem;
+    flex-grow: 5;
+    overflow: hidden;
+}
+.card * {
+    color: #252830;
+}
+.card a {
+    color: #2780e3;
+}
+.card-block {
+    padding: 2rem;
+}
+.card-image {
+    display: block;
+    float: left;
+    max-height: 15rem;
+    margin-right: 1rem;
+}
+.card .label-default,
+.card a.btn {
+    color: white;
+}
+#search-form {
+    margin-bottom: 15px;
+}
+.stylish-input-group .input-group-addon{
+    background: white !important;
+}
+.stylish-input-group .form-control{
+    border-right:0;
+    box-shadow:0 0 0;
+    border-color:#ccc;
+}
+.stylish-input-group button{
+    border:0;
+    background:transparent;
+}
+.row-center {
+    text-align:center;
+}
+
+.col-center {
+    display:inline-block;
+    float:none;
+}
+.sort {
+    display: inline-block;
+    margin-left: 3em;
+    color: #2780e3;
+    cursor: pointer;
+    position: relative;
+}
+.sort:hover {
+    text-decoration: underline;
+}
+.sort.sort-asc:after,
+.sort.sort-desc:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 7px;
+    margin-left: 5px;
+}
+.sort.sort-asc:after {
+    border-bottom: 7px solid #2780e3;
+    border-right: 7px solid transparent;
+    border-left: 7px solid transparent;
+}
+.sort.sort-desc:after {
+    border-top: 7px solid #2780e3;
+    border-right: 7px solid transparent;
+    border-left: 7px solid transparent;
+}

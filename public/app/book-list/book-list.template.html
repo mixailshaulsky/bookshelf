@@ -1,0 +1,52 @@
+<div ng-include="'header.html'"></div>
+<ul class="breadcrumb">
+    <li ng-click="$ctrl.reload()"><a href="#!/books">Список книг</a></li>
+    <li ng-show="$ctrl.searched"><a href="#">Поиск "{{$ctrl.searched}}"</a></li>
+</ul>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <form id="search-form">
+                <div class="input-group stylish-input-group">
+                    <input class="form-control"  placeholder="Поиск" ng-model="$ctrl.query">
+                    <span class="input-group-addon">
+                        <button type="submit" ng-click="$ctrl.search()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-8 col-sm-offset-2">
+            Сортировка:
+            <span ng-class="{sort: true, 'sort-desc': $ctrl.booksOrder.author.desc, 'sort-asc': $ctrl.booksOrder.author.asc}" ng-click="$ctrl.changeOrder('author')">Автор</span>
+            <span ng-class="{sort: true, 'sort-desc': $ctrl.booksOrder.title.desc, 'sort-asc': $ctrl.booksOrder.title.asc}" ng-click="$ctrl.changeOrder('title')">Название</span>
+        </div>
+    </div>
+</div>
+<p class="text-center text-info" if-loading>
+    <span class="fa fa-refresh fa-spin"></span> Загрузка...
+</p>
+<div class="container text-center">
+    <div class="alert alert-dismissible alert-danger" ng-if="$ctrl.error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Ой!</strong> {{$ctrl.error}}
+    </div>
+    <div class="row row-center">
+        <div class="card col-md-5 col-center" ng-repeat="book in $ctrl.books">
+            <img class="img-responsive card-image card-block" ng-src="{{(book.cover | bookCover : book.id: $ctrl.config.apiUrl)  + '?' + book.cover}}">
+            <div class="card-block">
+                <h4><a href="#!/book/{{book.id}}">{{book.title}}</a></h4>
+                <h5><strong>Автор</strong>: {{book.author}}</h5>
+                <h5><strong>Год издания</strong>: {{book.publication_year}}</h5>
+            </div>
+        </div>
+    </div>
+    <ul class="pagination">
+        <li ng-class="{disabled: $ctrl.page == 1}"><a href="#!/books/{{$ctrl.getPrevPage()}}/{{$ctrl.query}}/{{$ctrl.orderString}}">&laquo;</a></li>
+        <li ng-class="{active: page == $ctrl.page}" ng-repeat="page in $ctrl.getPagesRange()">
+            <a href="#!/books/{{page}}/{{$ctrl.query}}/{{$ctrl.orderString}}">{{page}}</a>
+        </li>
+        <li ng-class="{disabled: $ctrl.page == $ctrl.pages}"><a href="#!/books/{{$ctrl.getNextPage()}}/{{$ctrl.query}}/{{$ctrl.orderString}}">&raquo;</a></li>
+    </ul>
+</div>

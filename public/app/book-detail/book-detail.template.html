@@ -1,0 +1,27 @@
+<div ng-include="'header.html'"></div>
+<ul class="breadcrumb">
+    <li><a href="#!/books">Книги</a></li>
+    <li><a href="#!/book/{{$ctrl.book.id}}">"{{$ctrl.book.title}}"</a></li>
+</ul>
+<p class="text-center text-info" if-loading>
+    <span class="fa fa-refresh fa-spin"></span> Загрузка...
+</p>
+<div class="alert alert-dismissible alert-danger" ng-if="$ctrl.error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>Ой!</strong> {{$ctrl.error}}
+</div>
+<div class="row card" ng-if="$ctrl.book.id">
+    <div class="col-md-4 card-block">
+        <img class="img-responsive thumbnail" ng-src="{{($ctrl.book.cover | bookCover : $ctrl.book.id: $ctrl.config.apiUrl) + '?' + $ctrl.book.cover}}">
+    </div>
+    <div class="col-md-8 card-block">
+        <h2>{{$ctrl.book.title}}</h2>
+        <p><span class="label label-default">Автор:</span> {{$ctrl.book.author}}</p>
+        <p><span class="label label-default">Год издания:</span> {{$ctrl.book.publication_year}}</p>
+        <hr>
+        <p>{{$ctrl.book.description}}</p>
+        <hr>
+        <a href="#!/book/edit/{{$ctrl.book.id}}" class="btn btn-primary">Редактировать</a>
+        <a href="#!/book/delete/{{$ctrl.book.id}}" class="btn btn-danger">Удалить</a>
+    </div>
+</div>

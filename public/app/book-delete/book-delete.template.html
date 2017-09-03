@@ -1,0 +1,16 @@
+<div ng-include="'header.html'"></div>
+<ul class="breadcrumb">
+    <li><a href="#!/books">Книги</a></li>
+    <li><a href="#">Удаление книги</a></li>
+</ul>
+<p class="text-center text-info" if-loading>
+    <span class="fa fa-refresh fa-spin"></span> Загрузка...
+</p>
+<div class="alert alert-dismissible alert-danger" ng-if="$ctrl.error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>Ой!</strong> {{$ctrl.error}}
+</div>
+<div class="alert alert-dismissible alert-success" ng-if="$ctrl.success">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    Ура! Книга удалена!
+</div>

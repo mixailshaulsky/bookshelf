@@ -1,0 +1,70 @@
+<div ng-include="'header.html'"></div>
+<ul class="breadcrumb">
+    <li><a href="#!/books">Книги</a></li>
+    <li ng-if="!$ctrl.book.id"><a href="#!/create/book">Новая книга...</a></li>
+    <li ng-if="$ctrl.book.id"><a href="#!/book/{{$ctrl.book.id}}">"{{$ctrl.book.title}}"</a></li>
+    <li ng-if="$ctrl.book.id"><a href="#!/book/edit/{{$ctrl.book.id}}">Редактирование</a></li>
+</ul>
+<p class="text-center text-info" if-loading>
+    <span class="fa fa-refresh fa-spin"></span> Загрузка...
+</p>
+<div>
+    <div class="alert alert-dismissible alert-danger" ng-if="$ctrl.error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Ой!</strong> {{$ctrl.error}}
+    </div>
+    <form class="form-horizontal" name="createBookForm" novalidate>
+        <fieldset>
+            <div class="form-group" ng-class="{ 'has-error' : createBookForm.title.$invalid && createBookForm.title.$dirty || createBookForm.title.$error.maxlength || $ctrl.invalid.title}">
+                <label for="inputTitle" class="col-lg-2 control-label">Название: <span class="text-danger">*</span></label>
+                <div class="col-lg-10">
+                    <input name="title" class="form-control" id="inputTitle" ng-model="$ctrl.book.title" required ng-maxlength="150">
+                    <p ng-show="createBookForm.title.$invalid && createBookForm.title.$dirty" class="help-block">Поле обязательно для заполнения.</p>
+                    <p ng-show="createBookForm.title.$error.maxlength" class="help-block">Введено слишком длинное название для книги</p>
+                    <p ng-show="$ctrl.invalid.title" class="help-block">{{$ctrl.arrayToString($ctrl.invalid.title)}}</p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : createBookForm.author.$invalid && createBookForm.author.$dirty || createBookForm.author.$error.maxlength || $ctrl.invalid.author }">
+                <label for="inputAuthor" class="col-lg-2 control-label">Автор: <span class="text-danger">*</span></label>
+                <div class="col-lg-10">
+                    <input name="author" class="form-control" id="inputAuthor" ng-model="$ctrl.book.author" required  ng-maxlength="100">
+                    <p ng-show="createBookForm.author.$invalid && createBookForm.author.$dirty" class="help-block">Поле обязательно для заполнения.</p>
+                    <p ng-show="createBookForm.author.$error.maxlength" class="help-block">Введено слишком длинное имя автора</p>
+                    <p ng-show="$ctrl.invalid.author" class="help-block">{{$ctrl.arrayToString($ctrl.invalid.author)}}</p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : createBookForm.publication_year.$error.pattern && createBookForm.publication_year.$dirty || $ctrl.invalid.publication_year }">
+                <label for="inputYear" class="col-lg-2 control-label">Год издания:</label>
+                <div class="col-lg-4">
+                    <input name="publication_year" class="form-control" id="inputYear" ng-model="$ctrl.book.publication_year" ng-pattern="/^\d{3,4}$/">
+                    <p ng-show="createBookForm.publication_year.$error.pattern && createBookForm.publication_year.$dirty" class="help-block">Указан недопустимый год издания книги</p>
+                    <p ng-show="$ctrl.invalid.publication_year" class="help-block">{{$ctrl.arrayToString($ctrl.invalid.publication_year)}}</p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : createBookForm.description.$invalid && createBookForm.description.$dirty || createBookForm.description.$error.maxlength || $ctrl.invalid.description }">
+                <label for="textDescription" class="col-lg-2 control-label">Описание: <span class="text-danger">*</span></label>
+                <div class="col-lg-10">
+                    <textarea name="description" class="form-control" rows="3" id="textDescription" ng-model="$ctrl.book.description" required  ng-maxlength="2000"></textarea>
+                    <p ng-show="createBookForm.description.$invalid && createBookForm.description.$dirty" class="help-block">Поле обязательно для заполнения.</p>
+                    <p ng-show="createBookForm.description.$error.maxlength" class="help-block">Введено слишком длинное описание для книги</p>
+                    <p ng-show="$ctrl.invalid.description" class="help-block">{{$ctrl.arrayToString($ctrl.invalid.description)}}</p>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : $ctrl.invalid.cover }">
+                <label for="inputCover" class="col-lg-2 control-label">Обложка:</label>
+                <div class="col-lg-4">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="524288">
+                    <input name="cover" type="file" class="form-control" id="inputCover" file-input="$ctrl.bookCover" accept="image/jpeg,image/png,image/gif">
+                    <p ng-show="$ctrl.invalid.cover" class="help-block">{{$ctrl.arrayToString($ctrl.invalid.cover)}}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                    <a href="#!/books" class="btn btn-default" ng-disabled="$ctrl.saving">Отмена</a>
+                    <button ng-if="!$ctrl.book.id" type="submit" class="btn btn-primary" ng-disabled="createBookForm.$invalid || $ctrl.saving" ng-click="$ctrl.create()">Добавить</button>
+                    <button ng-if="$ctrl.book.id" type="submit" class="btn btn-primary" ng-disabled="createBookForm.$invalid || $ctrl.saving"  ng-click="$ctrl.update()">Обновить</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

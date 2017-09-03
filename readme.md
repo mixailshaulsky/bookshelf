@@ -37,6 +37,14 @@ $ php -S localhost:8000 -t public
 
 - :thumbsup: profit!
 
+## Client-side application
+
+Based on AngularJS 1.6.6 framework
+
+Default location - /public/app/
+
+Can be used as standalone app. In this case api URL must be specified in app/app.config.js (apiUrl constant).
+
 ## API Documentation
 
 Swagger documentation available on http://your-app-url/documentation/
