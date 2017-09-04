@@ -22,7 +22,7 @@ $app->group(['prefix' => 'api/v1'], function() use($app) {
 });
 $app->get('/', function () {
     if (is_file(public_path().'/app/index.html')) {
-        return redirect('/app/');
+        return redirect('/app/#');
     } else {
         throw  new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
     }
